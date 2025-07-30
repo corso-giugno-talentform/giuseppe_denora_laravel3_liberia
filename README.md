@@ -1,61 +1,54 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📚 Progetto Library - Laravel
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Introduzione
 
-## About Laravel
+In questo progetto Laravel viene introdotta la gestione di **tabelle (schemas)** nel database, collegate a **model** Eloquent.  
+Ogni entità del dominio (es. Libro) viene rappresentata con un **model**, collegato a una specifica **tabella** nel database.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+##  Convenzioni di sintassi
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Il **Model** ha un nome **singolare** con **iniziale maiuscola**  
+  Esempio: `Book`
+- La **tabella** associata ha un nome **plurale** e tutto in **minuscolo**  
+  Esempio: `books`
+- I nomi sono sempre in **inglese**.
+- Ogni **record** della tabella corrisponde a un’**istanza** del Model.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+##  Migrazione: creazione della tabella `books`
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Nel file di migrazione `create_books_table.php` troviamo il metodo `up()` in cui definiamo la struttura della tabella con i relativi attributi.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```php
+public function up(): void
+{
+    Schema::create('books', function (Blueprint $table) {
+        $table->id();
+        $table->string('name', 100);
+        $table->integer('pages');
+        $table->integer('year')->nullable();
+        $table->timestamps();
+    });
+}
+```
 
-## Laravel Sponsors
+id() crea una chiave primaria auto-incrementale.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Gli altri campi (name, pages, year) rappresentano gli attributi del libro.
 
-### Premium Partners
+timestamps() aggiunge i campi created_at e updated_at automaticamente.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+##  model BOOK
+```php
+use Illuminate\Database\Eloquent\Model;
 
-## Contributing
+class Book extends Model
+{
+    protected $fillable = ['name', 'pages', 'year'];
+}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+$fillable specifica gli attributi che possono essere assegnati in massa, ad esempio usando Book::create([...]) oppure immessi direttente nella table tramite Sql o..
