@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
-    protected $fillable = ['name', 'pages', 'year'];
+    protected $fillable = ['name', 'pages', 'year','image'];
+    //aggiunto image dopo l'up migration della table
 }

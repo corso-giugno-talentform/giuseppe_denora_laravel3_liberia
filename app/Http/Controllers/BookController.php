@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Http\Requests\StoreBookRequest;
 use App\Models\Book; // IMPORTANTE
 use Illuminate\Http\Request;
 
@@ -47,18 +49,22 @@ Book::create([
 
 
 
-    public function store(Request $request)
+    public function store(StoreBookRequest $request)
 {
-    $request->validate([
-        'name' => ['required', 'string', 'max:150'],
-        'year' => ['nullable', 'integer'],
-        'pages' => ['nullable', 'integer'],
-    ]);
 
+
+ $path_image='';
+    if($request->hasFile('image')){
+        $file_name=$request->file('image')->getClientOriginalName();
+        $path_image=$request->file('image')->storeAs('images',$file_name,'public');
+    } 
+//NB  non usando path image e if potrei usare semplicemente in create /*  'image'=>$request->file('image')->store('cover','public'), */
     Book::create([
         'name' => $request->name,
         'year' => $request->year,
         'pages' => $request->pages,
+       /*  'image'=>$request->file('image')->store('cover','public'), */
+         'image' => $path_image,
     ]);
 
     return redirect()->route('books.index')->with('success', 'Libro aggiunto con successo!');

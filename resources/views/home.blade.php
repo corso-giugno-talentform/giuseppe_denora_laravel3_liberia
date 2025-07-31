@@ -1,15 +1,13 @@
-
-
 <x-main>
 
-      <x-slot name="title">
-      Liberia  | il luogo dei libri
+    <x-slot name="title">
+        Liberia | il luogo dei libri
     </x-slot>
     <!-- Hero Section -->
-{{-- <x-hero/> --}}
+    {{-- <x-hero/> --}}
 
     <!-- Featured Articles -->
-   {{--  <section class="featured-articles" id="articles">
+    {{--  <section class="featured-articles" id="articles">
         <div class="container">
             <h2 class="section-title">Articoli in Evidenza</h2>
             <div class="row">
@@ -25,13 +23,13 @@
         </div>
     </section>
  --}}
- <h1>I libri presenti nella libreria </h1>
+    <h1>I libri presenti nella libreria </h1>
     <ul>
         @foreach ($libri as $libro)
             <li>{{ $libro->name }}</li>
         @endforeach
 
     </ul>
-   
+
 
 </x-main>

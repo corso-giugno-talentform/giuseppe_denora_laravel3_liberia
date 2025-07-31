@@ -1,4 +1,4 @@
-# 📚 Progetto Library - Laravel
+# Progetto Library - Laravel
 
 ## Introduzione
 
@@ -7,7 +7,7 @@ Ogni entità del dominio (es. Libro) viene rappresentata con un **model**, colle
 
 ---
 
-##  Convenzioni di sintassi
+## Convenzioni di sintassi
 
 - Il **Model** ha un nome **singolare** con **iniziale maiuscola**  
   Esempio: `Book`
@@ -18,7 +18,7 @@ Ogni entità del dominio (es. Libro) viene rappresentata con un **model**, colle
 
 ---
 
-##  Migrazione: creazione della tabella `books`
+## Migrazione: creazione della tabella `books`
 
 Nel file di migrazione `create_books_table.php` troviamo il metodo `up()` in cui definiamo la struttura della tabella con i relativi attributi.
 
@@ -35,13 +35,14 @@ public function up(): void
 }
 ```
 
-id() crea una chiave primaria auto-incrementale.
+- `id()` crea una chiave primaria auto-incrementale.
+- Gli altri campi (`name`, `pages`, `year`) rappresentano gli attributi del libro.
+- `timestamps()` aggiunge i campi `created_at` e `updated_at` automaticamente.
 
-Gli altri campi (name, pages, year) rappresentano gli attributi del libro.
+---
 
-timestamps() aggiunge i campi created_at e updated_at automaticamente.
+## Model Book
 
-##  model BOOK
 ```php
 use Illuminate\Database\Eloquent\Model;
 
@@ -51,4 +52,32 @@ class Book extends Model
 }
 ```
 
-$fillable specifica gli attributi che possono essere assegnati in massa, ad esempio usando Book::create([...]) oppure immessi direttente nella table tramite Sql o..
+- `$fillable` specifica gli attributi che possono essere assegnati in massa, ad esempio usando `Book::create([...])` oppure immessi direttamente nella tabella tramite SQL.
+
+---
+
+## Creazione del BookController
+
+Tramite esso ed i metodi:
+
+- `create()` → ritorna solo la view del form
+- `store()` → valida e invia i dati dal form al model e quindi al database
+
+Si ha la possibilità di aggiungere nuovi record nella tabella e visualizzarli nella view `index.blade.php` situata nella cartella `books`.
+
+---
+
+## Upload file
+
+```php
+$path_image = '';
+if ($request->hasFile('image')) {
+    $file_name = $request->file('image')->getClientOriginalName();
+    $path_image = $request->file('image')->storeAs('images', $file_name, 'public');
+}
+```
+
+> Da inserire nel `BookController`.  
+> Ricorda di eseguire il comando:  
+> `php artisan storage:link`  
+> per creare il link simbolico allo storage e rendere le immagini caricate visibili.
