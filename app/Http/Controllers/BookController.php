@@ -104,15 +104,7 @@ class BookController extends Controller
         'pages' => $request->pages,
         'image' => $image,
 
-        ///  NOTA  se avessi questo scenario di cui sotto si aggiornerebbe solo se carico nuova immagine 
-       /*     $path_image = '';
-        if ($request->hasFile('image')) {
-            $file_name = $request->file('image')->getClientOriginalName();
-            $path_image = $request->file('image')->storeAs('images', $file_name, 'public');
-            
-            ed in update
-            'image' => $path_image, 
-            */
+       
     ]);
 
     return redirect()->route('books.index')->with('success', 'Il libro è stato modificato');
