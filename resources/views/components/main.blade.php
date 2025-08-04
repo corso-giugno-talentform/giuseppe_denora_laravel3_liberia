@@ -13,8 +13,14 @@
 </head>
 
 <body>
-    {{-- Qui stampi il contenuto dinamico della pagina --}}
-    {{ $slot }}
+     <x-navbar />
+
+   
+
+
+    <x-hero/>
+     {{ $slot }}
+
 </body>
 
 </html>
