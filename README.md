@@ -81,3 +81,8 @@ if ($request->hasFile('image')) {
 > Ricorda di eseguire il comando:  
 > `php artisan storage:link`  
 > per creare il link simbolico allo storage e rendere le immagini caricate visibili.
+
+## Auth con Fortify
+
+## Operazioni crud
+ in questo progetto le operazioni crud sono concesse a tutti i loggati , senza la creazione di un ipotetico Admin al quale sarebbe concesso l'uso esclusivo del form di modifica visualizza ed elimina
