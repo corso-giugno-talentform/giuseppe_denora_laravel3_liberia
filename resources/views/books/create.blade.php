@@ -24,6 +24,19 @@
                 @enderror
             </div>
 
+            {{--     select per scegliere dinamicamente gli autori  --}}
+            <label for="inputAuthor">Scegli gli autori</label>
+            <select class="form-select" aria-label="Default select example" name="author_id" id="inputAuthor">
+                <option value="" selected disabled>-- seleziona un autore --</option>
+                @foreach ($authors as $author)
+                    {
+                    <option value="{{ $author->id }}"> {{ $author->firstname . ' ' . $author->lastname }}</option>
+                    }
+                @endforeach
+
+
+            </select>
+
             {{-- Pagine --}}
             <div class="mb-3">
                 <input type="number" class="form-control" placeholder="Pagine" name="pages"
@@ -35,8 +48,7 @@
             {{--  upload file  --}}
             <div class="mb-3">
                 <label for="formFile" class="form-label">Immagine cover</label>
-                <input class="form-control" type="file" id="formFile"  name="image"  
->
+                <input class="form-control" type="file" id="formFile" name="image">
             </div>
 
             {{-- Pulsante --}}

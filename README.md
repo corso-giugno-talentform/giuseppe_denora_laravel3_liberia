@@ -86,3 +86,8 @@ if ($request->hasFile('image')) {
 
 ## Operazioni crud
  in questo progetto le operazioni crud sono concesse a tutti i loggati , senza la creazione di un ipotetico Admin al quale sarebbe concesso l'uso esclusivo del form di modifica visualizza ed elimina
+## Aggiunta della tabella autori 1 a N 
+* La relazione tra la tabella book e autori è 1 a n
+* Sono state create operazioni crud per aggiungere autori
+ed associarli poi ad un libro tramite un form select
+* Prevista la possibiltà di creare o fare update di un libro con author->id  Null

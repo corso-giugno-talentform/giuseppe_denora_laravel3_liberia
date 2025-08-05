@@ -5,6 +5,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Book;
 use App\Http\Controllers\{BookController, PageController};
+use App\Http\Controllers\AuthorController;
 
 
 /* Route::get('/', function () {
@@ -33,3 +34,5 @@ Route::get('/libri/{book}/modifica', [BookController::class, 'edit'])->name('boo
 Route::put('/libri/{book}/aggiorna', [BookController::class, 'update'])->name('books.update');
 
 Route::delete('/libri/{book}/elimina', [BookController::class, 'destroy'])->name('books.destroy');
+
+Route::resource('authors', AuthorController::class);

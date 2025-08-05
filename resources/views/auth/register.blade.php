@@ -9,7 +9,7 @@
                     <div class="mb-3">
                         <label for="name" class="form-label">Nome
                             utente</label>
-                        <input type="text" name="name" class="form-control" id="name" required value="{{old('name')}} >
+                        <input type="text" name="name" class="form-control" id="name" required value="{{old('name')}} ">
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email
