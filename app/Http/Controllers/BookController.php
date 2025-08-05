@@ -7,14 +7,15 @@ use App\Http\Requests\UpdateBookRequest;
 use App\Models\Book; // IMPORTANTE
 use Illuminate\Http\Request;
 use App\Models\Author;
+use App\Models\Category;
 
 
 class BookController extends Controller
 {
     public function index()
     {
-      /*   $books = Book::all(); */
-      $books=Book::simplePaginate(4);  //per la paginazione
+        /*   $books = Book::all(); */
+        $books = Book::simplePaginate(4);  //per la paginazione
 
         return view('books.index', compact('books'));
     }
@@ -27,40 +28,16 @@ class BookController extends Controller
     }
  */
 
-    //ora devo mandare i gli AUTORI alla view
+    //ora devo mandare i gli AUTORI e le cateforie alla view
     public function create()
     {
-        $authors = Author::all();
-        return view('books.create', compact('authors'));
+          $authors = Author::all();
+        $categories = Category::all();
+
+        return view('books.create', compact('authors', 'categories'));
     }
 
-    public function storeOLD(Request $request)
-    {
-
-        //step1 validazione
-        $request->validate([
-            'name' => ['required', 'max:150', 'string'], //perche ho scelto max 150caratteri
-            'year' => ['integer'], //era facoltativo 
-            'pages' => ['integer'], //era facoltativo 
-
-        ]);
-
-        // step 2 mapping 
-        /* $data=[
-'name'=> $request->name,
-'year'=>$request->year,
-'pages'=>$request->page]; */
-        //step3 salvo i $data
-        Book::create([
-            'name' => $request->name,
-            'year' => $request->year,
-            'pages' => $request->page
-        ]);
-        $text = 'elemento inserito';
-
-        return redirect()->route('books.index')->with('success', $text);
-    }
-
+   
 
 
     public function store(StoreBookRequest $request)
@@ -76,16 +53,19 @@ class BookController extends Controller
         //NB  non usando path image e if potrei usare semplicemente in create /*  'image'=>$request->file('image')->store('cover','public'), qui 'cover' è storage/cover che contiene il file uploadato  */
 
         $defaultAuthorId = Author::where('firstname', '')->first()?->id ?? null;
-        Book::create([
+        $book =  Book::create([
             'name' => $request->name,
             'year' => $request->year,
             'pages' => $request->pages,
-           /*  'author_id' => $request->author_id, */
+            /*  'author_id' => $request->author_id, */
             'author_id' => $request->author_id ?? $defaultAuthorId, //nel caso abbia cancellato autore , posso cmq fare un  create
 
             'image' => $path_image,
         ]);
-
+        //uso l'oggetto $book per fare l'attach delle categorie e prenderle dal form
+        $book->categories()->attach($request->categories); 
+        
+  
         return redirect()->route('books.index')->with('success', 'Libro aggiunto con successo!');
     }
 
@@ -98,8 +78,9 @@ class BookController extends Controller
     //edit . ritornera solo la view per il form 
     public function edit(Book $book)
     {
-         $authors = Author::all();
-        return view('books.edit', compact('book','authors'));
+        $authors = Author::all(); //mi servono tutte 
+        $categories = Category::all();
+        return view('books.edit', compact('book', 'authors', 'categories'));
     }
 
     //update 2 parametri.. l oggetto libro e updaterequest per la validazione
@@ -125,17 +106,22 @@ class BookController extends Controller
             'author_id' => $request->author_id ?? $defaultAuthorId, //nel caso abbia cancellato autore , posso cmq fare un update
 
 
-            ///  NOTA  se avessi questo scenario di cui sotto si aggiornerebbe solo se carico nuova immagine 
-            /*     $path_image = '';
-        if ($request->hasFile('image')) {
-            $file_name = $request->file('image')->getClientOriginalName();
-            $path_image = $request->file('image')->storeAs('images', $file_name, 'public');
-            
-            ed in update
-            'image' => $path_image, 
-            */
         ]);
 
+        //ATTACCO LE CATEGORIE selezionate quando faccio l'update ma prima faccio detouch per non avere duplicazioni
+
+        $book->categories()->detach();
+
+        $book->categories()->attach($request->categories);
+
+
         return redirect()->route('books.index')->with('success', 'Il libro è stato modificato');
+    }
+
+     public function destroy(Book $book)
+    {
+        $book->categories()->detach();//cosi se c'è ancora relazione non posso cancellare
+        $book->delete();
+        return redirect()->route('books.index')->with('success', 'Libro cancellato!');
     }
 }

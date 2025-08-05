@@ -14,4 +14,9 @@ class Book extends Model
 {
 return $this->belongsTo(Author::class); ///il libro appartine Alla l'autore ovvero classe Author
 }
+
+//per la relazione N a N con category
+public function categories(){ //al plur perche relazione N a N 
+   return $this->belongsToMany(Category::class);
+}
 }

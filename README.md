@@ -91,3 +91,29 @@ if ($request->hasFile('image')) {
 * Sono state create operazioni crud per aggiungere autori
 ed associarli poi ad un libro tramite un form select
 * Prevista la possibiltà di creare o fare update di un libro con author->id  Null
+
+
+## corretto errore grave per la integrita del db
+in database add_author_id_to_books_table
+ho eliminato la prima riga poiche nella seconda ho gia usato
+il foreignId mantenendole entrambe avevo errore di duplicazione colonna
+nella migration
+```php
+ public function up(): void
+    {
+        Schema::table('books', function (Blueprint $table) {
+          /*   $table->unsignedBigInteger('author_id')->nullable(); */
+           
+            $table->foreignId('author_id')->constrained()->onDelete('cascade'); 
+            
+        });
+    }
+
+```
+## Nuova entita Categoria
+* l'entita category ha una relazione N a N con i book
+* comando  php artisan make:model Category -mcrR
+* Route : Route::resource('categories', CategoryController::class);
+* $table->string('name'); nel metodo up
+* utilizzo delle checkbox per aggiungere una categoria ad un libro
+sia nella fase di creazione che di editing 

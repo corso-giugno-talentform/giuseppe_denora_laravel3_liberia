@@ -38,7 +38,22 @@
 
      </select>
  </div>
+{{--  categorie --}}
+  <div class="mb-3">
+                @foreach ($categories as $category)
+                    <div class="form-check ">
+                        {{-- //contains fa il controllo delle categorie appartenenti a quel libro --}}
+                        <input @if ($book->categories->contains($category->id)) checked @endif name="categories[]"
+                            class="form-check-input" type="checkbox" value="{{ $category->id }}"
+                            id="checkDefault-{{ $category->id }}">
+                        <label class="form-check-label" for="checkDefault-{{ $category->id }}">
+                            {{ $category->name }}
+                        </label>
+                    </div>
+                @endforeach
 
+
+            </div>
 
 
  {{-- pages --}}

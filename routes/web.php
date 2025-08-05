@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Book;
 use App\Http\Controllers\{BookController, PageController};
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\CategoryController;
 
 
 /* Route::get('/', function () {
@@ -36,3 +37,6 @@ Route::put('/libri/{book}/aggiorna', [BookController::class, 'update'])->name('b
 Route::delete('/libri/{book}/elimina', [BookController::class, 'destroy'])->name('books.destroy');
 
 Route::resource('authors', AuthorController::class);
+
+//rotte per category
+Route::resource('categories', CategoryController::class);

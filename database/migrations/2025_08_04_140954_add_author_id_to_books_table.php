@@ -12,9 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->unsignedBigInteger('author_id')->nullable();
+          /*   $table->unsignedBigInteger('author_id')->nullable(); */
             //link tra le tabelle e eliminazione a cascata
-            $table->foreign('author_id')->constrained()->onDelete('cascade');
+            //IMPORANTE SOLO QUESTA RIGA ALTRIMENTI Non ce integrita delle relazione nella tabella
+            $table->foreignId('author_id')->constrained()->onDelete('cascade'); 
+            
         });
     }
 

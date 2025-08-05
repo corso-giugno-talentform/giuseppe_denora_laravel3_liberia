@@ -6,13 +6,13 @@
 
             <div class="container mt-5">
                 <div class="align-middle gap-2 d-flex justify-content-between">
-                    <h3>Elenco AUTORI inseriti</h3>
+                    <h3>Elenco Categorie inserite</h3>
                     <form class="d-flex" role="search" action="#" method="POST">
                         <input class="form-control me-2" name="search" type="search" placeholder="Cerca Libro"
                             aria-label="Search">
                     </form>
-                    <a href="{{ route('authors.create') }}" type="button" class="btn btn btn-success me-md-2">
-                        Crea Nuovo Autore
+                    <a href="{{ route('categories.create') }}" type="button" class="btn btn btn-success me-md-2">
+                        Crea Nuova Categoria 
                     </a>
                 </div>
                 <table class="table border mt-2">
@@ -20,36 +20,36 @@
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nome</th>
-                            <th scope="col">Cognome</th>
+                           
                             <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($authors as $author)
+                        @foreach ($categories as $category)
                             <tr>
-                                <th scope="row">{{ $author->id }}</th>
+                                <th scope="row">{{ $category->id }}</th>
 
-                                <td>{{ $author->firstname }}</td>
-                                <td>{{ $author->lastname }}</td>
+                                <td>{{ $category->name }}</td>
+                                
                                 <td>
 
                                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 
-                                        <a href="{{ route('authors.show', ['author' => $author]) }}"
+                                        <a href="{{ route('categories.show', ['category' => $category]) }}"
                                             class="btn btn-primary me-md-2">
                                             Visualizza
                                         </a>
-                                        <a href="{{ route('authors.edit', ['author' => $author]) }}"
+                                        <a href="{{ route('categories.edit', ['category' => $category]) }}"
                                             class="btn btn-warning me-md-2">
                                             Modifica
                                         </a>
                                         {{--  questo bottone triggera la modale che  è il vero form di eliminazione --}}
                                         <button type="button" class="btn btn-danger me-md-2" data-bs-toggle="modal"
-                                            data-bs-target="#author-{{ $author->id }}">Elimina</button>
+                                            data-bs-target="#category-{{ $category->id }}">Elimina</button>
 
 
                                         <!-- Modale/form -->
-                                        <div class="modal fade" id="author-{{ $author->id }}" data-bs-backdrop="static"
+                                        <div class="modal fade" id="category-{{ $category->id }}" data-bs-backdrop="static"
                                             data-bs-keyboard="false" tabindex="-1"
                                             aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                             <div class="modal-dialog">
@@ -57,7 +57,7 @@
                                                     <div class="modal-header">
                                                         <h1 class="modal-title fs-5" id="${this.id}"">
                                                             Sei sicuro di
-                                                            voler eliminare l'autore "{{ $author->firstname }}"?
+                                                            voler eliminare la categoria "{{ $category->name }}"?
                                                         </h1>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
@@ -69,7 +69,7 @@
                                                         <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">Annulla</button>
                                                         <form
-                                                            action="{{ route('authors.destroy', ['author' => $author]) }}"
+                                                            action="{{ route('categories.destroy', ['category' => $category]) }}"
                                                             method="POST">
                                                             @csrf
                                                             @method('DELETE')
@@ -98,8 +98,9 @@
         <a href="{{ route('books.create') }}" class="btn btn-primary py-3">
             vai al form per inserire i libri<i class="fas fa-paper-plane ms-2"></i>
         </a>
-    <a href="{{ route('categories.create') }}" class="btn btn-primary py-3">
+        <a href="{{ route('categories.create') }}" class="btn btn-primary py-3">
             vai al form per inserire le categorie<i class="fas fa-paper-plane ms-2"></i>
         </a>
+
     </div>
 </x-main>

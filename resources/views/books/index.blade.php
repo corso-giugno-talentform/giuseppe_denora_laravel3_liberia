@@ -113,5 +113,8 @@
         <a href="{{ route('authors.create') }}" class="btn btn-primary py-3">
             vai al form per inserire autori<i class="fas fa-paper-plane ms-2"></i>
         </a>
+       <a href="{{ route('categories.create') }}" class="btn btn-primary py-3">
+            vai al form per inserire le categorie<i class="fas fa-paper-plane ms-2"></i>
+        </a>
     </div>
 </x-main>

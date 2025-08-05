@@ -36,6 +36,20 @@
 
 
             </select>
+            {{--  selezione categorie con checkbox  ma serve prendere i dati dal controller di book nel metodo create--}}
+            <div class="mb-3">
+                @foreach ($categories as $category)
+                    <div class="form-check">
+                        {{-- <input name="categories[]" perche? perche avremo un array di categorie  --}}
+                        <input name="categories[]" class="form-check-input" type="checkbox" value="{{$category->id}}" id="checkDefault-{{$category->id}}">
+                        <label class="form-check-label" for="checkDefault-{{$category->id}}">
+                            {{$category->name}}
+                        </label>
+                    </div>
+                    @endforeach
+            </div>
+
+    
 
             {{-- Pagine --}}
             <div class="mb-3">
