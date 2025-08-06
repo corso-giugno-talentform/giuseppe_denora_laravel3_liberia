@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Book extends Model
-{
+{  
+
+    use HasFactory;
+
     protected $fillable = ['name', 'pages', 'year','image','author_id'];
     //aggiunto image dopo l'up migration della table
 
