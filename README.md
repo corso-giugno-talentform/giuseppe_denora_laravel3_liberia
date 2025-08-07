@@ -117,3 +117,8 @@ nella migration
 * $table->string('name'); nel metodo up
 * utilizzo delle checkbox per aggiungere una categoria ad un libro
 sia nella fase di creazione che di editing 
+
+## Aggiunta la modalita di ricerca sui Books
+* aggiunto Scout https://laravel.com/docs/12.x/scout
+* aggiunto Tntsearch https://github.com/teamtnt/laravel-scout-tntsearch-driver
+* ricerca fuzzy

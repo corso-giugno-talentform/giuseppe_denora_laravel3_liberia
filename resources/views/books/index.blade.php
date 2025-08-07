@@ -19,11 +19,22 @@
 
          <div class="container mt-5">
              <div class="align-middle gap-2 d-flex justify-content-between">
-                 <h3>Elenco Libri inseriti</h3>
-                 <form class="d-flex" role="search" action="#" method="POST">
+                 <h3>Elenco Libri inseriti({{$books->count()}})</h3>
+                 <div>
+
+                 
+                 <form class="input-group" role="search" action=" {{route('books.index')}}" method="GET">
                      <input class="form-control me-2" name="search" type="search" placeholder="Cerca Libro"
                          aria-label="Search">
+
+
+
+  
+  <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Button</button>
+
+
                  </form>
+                 </div>
                  <a href="{{ route('books.create') }}" type="button" class="btn btn btn-success me-md-2">
                      Crea Nuovo Libro
                  </a>
@@ -101,7 +112,7 @@
                  </tbody>
              </table>
   {{-- https://laravel.com/docs/12.x/pagination#customizing-the-pagination-view --}}
-             {{ $books->links() }}
+           {{--   {{ $books->links() }} --}}
 
          </div>
      </div>

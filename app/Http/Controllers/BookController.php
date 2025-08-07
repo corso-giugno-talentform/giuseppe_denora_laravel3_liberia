@@ -14,8 +14,19 @@ class BookController extends Controller
 {
     public function index()
     {
-        /*   $books = Book::all(); */
-        $books = Book::simplePaginate(4);  //per la paginazione
+        //$books = Book::all();
+        // $books = Book::simplePaginate(4);  //per la paginazione
+        if (request()->search) {
+
+            /*  $books = Book::where('name', 'LIKE', '%' . request('search') . '%')
+       ->orWhere('year',  'LIKE', '%' . request('search') . '%')->get();
+ */
+            //usando  scout e tnt search basta fare
+            
+            $books = Book::search(request()->search)->get();
+        } else {
+            $books = Book::all();
+        }
 
         return view('books.index', compact('books'));
     }
@@ -31,13 +42,13 @@ class BookController extends Controller
     //ora devo mandare i gli AUTORI e le cateforie alla view
     public function create()
     {
-          $authors = Author::all();
+        $authors = Author::all();
         $categories = Category::all();
 
         return view('books.create', compact('authors', 'categories'));
     }
 
-   
+
 
 
     public function store(StoreBookRequest $request)
@@ -63,9 +74,9 @@ class BookController extends Controller
             'image' => $path_image,
         ]);
         //uso l'oggetto $book per fare l'attach delle categorie e prenderle dal form
-        $book->categories()->attach($request->categories); 
-        
-  
+        $book->categories()->attach($request->categories);
+
+
         return redirect()->route('books.index')->with('success', 'Libro aggiunto con successo!');
     }
 
@@ -118,9 +129,9 @@ class BookController extends Controller
         return redirect()->route('books.index')->with('success', 'Il libro è stato modificato');
     }
 
-     public function destroy(Book $book)
+    public function destroy(Book $book)
     {
-        $book->categories()->detach();//cosi se c'è ancora relazione non posso cancellare
+        $book->categories()->detach(); //cosi se c'è ancora relazione non posso cancellare
         $book->delete();
         return redirect()->route('books.index')->with('success', 'Libro cancellato!');
     }
